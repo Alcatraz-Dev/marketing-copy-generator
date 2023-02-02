@@ -1,5 +1,4 @@
 import Link from "next/link";
-// import DarkMode from "../pages/DarkMode";
 
 export default function Header() {
   return (
@@ -9,10 +8,6 @@ export default function Header() {
           Bio Generator AI
         </h1>
       </Link>
-      {/* <div className="flex justify-between items-center space-x-7 ">
-        {" "}
-        <DarkMode />
-      </div> */}
     </header>
   );
 }
