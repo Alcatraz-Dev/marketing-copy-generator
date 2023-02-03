@@ -13,24 +13,24 @@ import ResizablePanel from "../components/ResizablePanel";
 
 const Home: NextPage = () => {
   const [loading, setLoading] = useState(false);
-  const [bio, setBio] = useState("");
+  const [marketing, setmarketing] = useState("");
   const [vibe, setVibe] = useState<VibeType>("Professional");
-  const [generatedBios, setGeneratedBios] = useState<String>("");
+  const [generateMarketing, setGeneratedMarketing] = useState<String>("");
 
-  console.log("Streamed response: ", generatedBios);
+  console.log("Streamed response: ", generateMarketing);
 
   const prompt =
     vibe === "Funny"
-      ? `Generate 2 funny twitter bios with no hashtags and clearly labeled "1." and "2.". Make sure there is a joke in there and it's a little ridiculous. Make sure each generated bio is at max 20 words and base it on this context: ${bio}${
-          bio.slice(-1) === "." ? "" : "."
+      ? `Generate 2 and make it a funny joke You are a marketing expert,and clearly labeled "1." and "2.". and a customer approaches you to write a very short and exciting marketing copy for them. This is the topic they would like a marketing copy for: '${marketing}.'\n\nThis is the short marketing copy you came up with:${
+          marketing.slice(-1) === "." ? "" : "."
         }`
-      : `Generate 2 ${vibe} twitter bios with no hashtags and clearly labeled "1." and "2.". Make sure each generated bio is at least 14 words and at max 20 words and base them on this context: ${bio}${
-          bio.slice(-1) === "." ? "" : "."
+      : `Generate 2 ${vibe} marketing expert, with no hashtags and clearly labeled "1." and "2.". You are a marketing expert, and a customer approaches you to write a very short and exciting marketing copy for them. This is the topic they would like a marketing copy for: '${marketing}.'\n\nThis is the short marketing copy you came up with:${
+          marketing.slice(-1) === "." ? "" : "."
         }`;
 
-  const generateBio = async (e: any) => {
+  const generateCopyMarketing = async (e: any) => {
     e.preventDefault();
-    setGeneratedBios("");
+    setGeneratedMarketing("");
     setLoading(true);
     const response = await fetch("/api/generate", {
       method: "POST",
@@ -61,7 +61,7 @@ const Home: NextPage = () => {
       const { value, done: doneReading } = await reader.read();
       done = doneReading;
       const chunkValue = decoder.decode(value);
-      setGeneratedBios((prev) => prev + chunkValue);
+      setGeneratedMarketing((prev) => prev + chunkValue);
     }
 
     setLoading(false);
@@ -70,25 +70,15 @@ const Home: NextPage = () => {
   return (
     <div className="flex max-w-5xl mx-auto flex-col items-center justify-center py-2 min-h-screen">
       <Head>
-        <title>Bio Generator</title>
+        <title>marketing copy Generator</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <Header />
       <main className="flex flex-1 w-full flex-col items-center justify-center text-center px-4 mt-12 sm:mt-20 ">
-        {/* <a
-          className="flex max-w-fit items-center justify-center space-x-2 rounded-full border border-gray-300 bg-white px-4 py-2 text-sm text-gray-600 shadow-md transition-colors hover:bg-gray-100 mb-5"
-          href="https://github.com/Nutlope/twitterbio"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Github />
-          <p>Star on GitHub</p>
-        </a> */}
         <h1 className="sm:text-6xl text-4xl max-w-2xl font-bold text-slate-900">
-          Generate your next bio in seconds ...
+          Generate your next marketing copy in seconds ...
         </h1>
-        {/* <p className="text-slate-500 mt-5">18,167 bios generated so far.</p> */}
         <div className="max-w-xl w-full">
           <div className="flex mt-10 items-center space-x-3">
             <Image
@@ -99,20 +89,20 @@ const Home: NextPage = () => {
               className="mb-5 sm:mb-0"
             />
             <p className="text-left font-medium">
-              Copy your current bio{" "}
+              Copy your current marketing copy{" "}
               <span className="text-slate-500">
-                (or write a few sentences about yourself)
+                (or write a few sentences about marketing copy)
               </span>
               .
             </p>
           </div>
           <textarea
-            value={bio}
-            onChange={(e) => setBio(e.target.value)}
+            value={marketing}
+            onChange={(e) => setmarketing(e.target.value)}
             rows={4}
             className="w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black my-5"
             placeholder={
-              "Full stack developer specializing in web development, database design, and software engineering. Passionate about creating innovative solutions."
+              "Enhance your business success with our product! Our innovative solutions will help you make the most of your resources and drive your business forward. Let us help you reach your goals! "
             }
           />
           <div className="flex mb-5 items-center space-x-3">
@@ -126,9 +116,9 @@ const Home: NextPage = () => {
           {!loading && (
             <button
               className="bg-[#3bbc34] rounded-xl text-white font-medium px-4 py-2 sm:mt-10 mt-8 hover:bg-[#6dea00] w-full"
-              onClick={(e) => generateBio(e)}
+              onClick={(e) => generateCopyMarketing(e)}
             >
-              Generate your bio &rarr;
+              Generate your marketing copy &rarr;
             </button>
           )}
           {loading && (
@@ -144,7 +134,7 @@ const Home: NextPage = () => {
             <Image src="/3-black.png" width={30} height={30} alt="1 icon" />
             <p className="text-left font-medium">
               {" "}
-              Click on the generated bios to copy it.
+              Click on the generated marketing copy to copy it.
             </p>
           </div>
         </div>
@@ -157,7 +147,7 @@ const Home: NextPage = () => {
         <ResizablePanel>
           <AnimatePresence mode="wait">
             <motion.div className="space-y-10 my-10">
-              {generatedBios && (
+              {generateMarketing && (
                 <>
                   <div>
                     <h2 className="sm:text-4xl text-3xl font-bold text-slate-900 mx-auto">
@@ -165,8 +155,8 @@ const Home: NextPage = () => {
                     </h2>
                   </div>
                   <div className="space-y-8 flex flex-col items-center justify-center max-w-xl mx-auto">
-                    {generatedBios
-                      .substring(generatedBios.indexOf("1") + 3)
+                    {generateMarketing
+                      .substring(generateMarketing.indexOf("1") + 3)
                       .split("2.")
                       .map((generatedBio) => {
                         return (
